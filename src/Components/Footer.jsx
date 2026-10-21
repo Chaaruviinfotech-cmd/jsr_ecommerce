@@ -154,40 +154,55 @@ const Footer = () => {
             </p>
           </div>
 
-          {/* Quick Links */}
-          <div className="jsr-footer-col">
-            <h4 className="jsr-footer-heading">Quick Links</h4>
-            <ul className="jsr-footer-list">
-              <li><Link to="/">Home</Link></li>
-              <li><Link to="/vegetables">Shop</Link></li>
-              <li><Link to="/about">About Us</Link></li>
-              <li><Link to="/contact">Contact Us</Link></li>
-              <li><Link to="/account">My Orders</Link></li>
-            </ul>
-          </div>
+          {/* Quick Links & Customer Service 2-col on mobile */}
+          <div className="jsr-footer-links-grid">
+            <div className="jsr-footer-col">
+              <h4 className="jsr-footer-heading">Quick Links</h4>
+              <ul className="jsr-footer-list">
+                <li><Link to="/">Home</Link></li>
+                <li><Link to="/vegetables">Shop</Link></li>
+                <li><Link to="/about">About Us</Link></li>
+                <li><Link to="/contact">Contact Us</Link></li>
+                <li><Link to="/account">My Orders</Link></li>
+              </ul>
+            </div>
 
-          {/* Customer Service */}
-          <div className="jsr-footer-col">
-            <h4 className="jsr-footer-heading">Customer Service</h4>
-            <ul className="jsr-footer-list">
-              <li><Link to="/about">Shipping Policy</Link></li>
-              <li><Link to="/about">Return Policy</Link></li>
-              <li><Link to="/about">Privacy Policy</Link></li>
-              <li><Link to="/about">Terms & Conditions</Link></li>
-              <li><Link to="/about">FAQ</Link></li>
-            </ul>
+            <div className="jsr-footer-col">
+              <h4 className="jsr-footer-heading">Customer Service</h4>
+              <ul className="jsr-footer-list">
+                <li><Link to="/about">Shipping Policy</Link></li>
+                <li><Link to="/about">Return Policy</Link></li>
+                <li><Link to="/about">Privacy Policy</Link></li>
+                <li><Link to="/about">Terms & Conditions</Link></li>
+                <li><Link to="/about">FAQ</Link></li>
+              </ul>
+            </div>
           </div>
 
           {/* Contact Details */}
           <div className="jsr-footer-col">
             <h4 className="jsr-footer-heading">Contact Us</h4>
             <div className="jsr-footer-contact">
-              <p><IoCallOutline size={16} /> {companySettings?.phone || '+91 98270 12345'}</p>
+              <p>
+                <a href={`tel:${(companySettings?.phone || '+919827012345').replace(/[^0-9+]/g, '')}`} className="jsr-contact-link">
+                  <IoCallOutline size={16} /> {companySettings?.phone || '+91 98270 12345'}
+                </a>
+              </p>
               {companySettings?.alternate_phone && (
-                <p><IoCallOutline size={16} /> {companySettings.alternate_phone}</p>
+                <p>
+                  <a href={`tel:${companySettings.alternate_phone.replace(/[^0-9+]/g, '')}`} className="jsr-contact-link">
+                    <IoCallOutline size={16} /> {companySettings.alternate_phone}
+                  </a>
+                </p>
               )}
-              <p><IoMailOutline size={16} /> {companySettings?.email || 'care@jsrvegetables.com'}</p>
-              <p><IoLocationOutline size={16} /> {companySettings?.address || 'Main Market Road, Bemetara, Chhattisgarh'}</p>
+              <p>
+                <a href={`mailto:${companySettings?.email || 'care@jsrvegetables.com'}`} className="jsr-contact-link">
+                  <IoMailOutline size={16} /> {companySettings?.email || 'care@jsrvegetables.com'}
+                </a>
+              </p>
+              <p className="jsr-address-text">
+                <IoLocationOutline size={16} /> {companySettings?.address || 'Main Market Road, Bemetara, Chhattisgarh'}
+              </p>
             </div>
             <div className="jsr-footer-socials">
               <a href={`https://wa.me/${whatsappClean}`} target="_blank" rel="noreferrer" aria-label="WhatsApp"><IoLogoWhatsapp size={18} /></a>
