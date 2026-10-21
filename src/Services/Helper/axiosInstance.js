@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = import.meta.env.VITE_API_URL || 'https://shriramsabji.mandipro.com/jsr_ecommerce/';
+const BASE_URL =  'https://shriramsabji.mandipro.com/jsr_ecommerce/';
 const TIMEOUT_MS = 10000;
 console.log("BASE_URL:", BASE_URL);
 
