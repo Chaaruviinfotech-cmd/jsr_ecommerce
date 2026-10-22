@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { NavLink, Outlet, Link, useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -26,6 +26,7 @@ const AdminLayout = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const dispatch = useDispatch();
+  const mainViewportRef = useRef(null);
 
   const { isAdminAuthenticated, adminUser, companySettings } = useSelector((state) => state.admin);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -33,6 +34,13 @@ const AdminLayout = () => {
   useEffect(() => {
     dispatch(getCompanySettings());
   }, [dispatch]);
+
+  // Scroll to top on route change inside admin viewport
+  useEffect(() => {
+    if (mainViewportRef.current) {
+      mainViewportRef.current.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }, [location.pathname]);
 
   // Authentication guard: if not authenticated, redirect to /admin/login
   useEffect(() => {
@@ -153,7 +161,11 @@ const AdminLayout = () => {
         </nav>
 
         <div className="jsr-admin-sidebar-footer">
-          <Link to="/" className="jsr-admin-nav-item jsr-nav-storefront">
+          <Link
+            to="/"
+            onClick={() => setIsSidebarOpen(false)}
+            className="jsr-admin-nav-item jsr-nav-storefront"
+          >
             <IoStorefrontOutline size={18} />
             <span>Public Store</span>
           </Link>
@@ -169,7 +181,7 @@ const AdminLayout = () => {
       </aside>
 
       {/* 2. ADMIN MAIN VIEWPORT */}
-      <div className="jsr-admin-main-viewport">
+      <div className="jsr-admin-main-viewport" ref={mainViewportRef}>
         {/* Top Navbar */}
         <header className="jsr-admin-topbar">
           <div className="jsr-admin-topbar-left">
@@ -185,15 +197,24 @@ const AdminLayout = () => {
           </div>
 
           <div className="jsr-admin-topbar-right">
-            {/* Date range picker matching mockup */}
+            {/* Dynamic Today Date */}
             <div className="jsr-admin-date-badge">
               <IoCalendarOutline size={16} />
-              <span>31 May - 06 Jun 2024</span>
+              <span>
+                {new Date().toLocaleDateString('en-GB', {
+                  day: '2-digit',
+                  month: 'short',
+                  year: 'numeric'
+                })}
+              </span>
             </div>
 
             <Link
               to="/"
               className="jsr-admin-view-store-btn"
+              target="_blank"
+              rel="noopener noreferrer"
+              title="Open customer storefront in new tab"
             >
               <IoStorefrontOutline size={16} />
               <span>View Storefront</span>
